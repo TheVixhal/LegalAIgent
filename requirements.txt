@@ -1,0 +1,10 @@
+streamlit
+groq
+langchain_community
+duckduckgo-search
+crewai
+langchain_groq
+langchain
+unstructured
+pyowm
+datetime
