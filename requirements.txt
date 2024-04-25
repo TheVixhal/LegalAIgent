@@ -8,5 +8,4 @@ langchain
 unstructured
 pyowm
 datetime
-pysqlite3
-sqlite3
+
