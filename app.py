@@ -1,3 +1,4 @@
+import sqlite3
 from crewai import Crew
 from agents import LegalAgents
 from tasks import LegalTasks
