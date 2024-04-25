@@ -27,7 +27,7 @@ class LegalCrew:
 
         researcher = agents.legal_researcher()
         analyst = agents.legal_analyst()
-        strategiest = agents.legal_strategiest()
+        strategiest = agents.legal_strategist()
 
         task1 = tasks.task1(
             researcher,
