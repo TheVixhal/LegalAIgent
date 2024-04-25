@@ -1,66 +1,37 @@
-import os
 from crewai import Agent
-import streamlit as st
 from langchain_groq import ChatGroq
 from langchain.tools import DuckDuckGoSearchRun
-search_tool = DuckDuckGoSearchRun()
+import streamlit as st
 
-llm = ChatGroq(model="mixtral-8x7b-32768",
-                             verbose = True,
-                             temperature = 0.6,
-                             groq_api_key="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")
+search_tool = DuckDuckGoSearchRun()
+llm = ChatGroq(model="mixtral-8x7b-32768", verbose=True, temperature=0.6, groq_api_key="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")
 
 def streamlit_callback(step_output):
-    # This function will be called after each step of the agent's execution
     st.markdown("---")
     for step in step_output:
         if isinstance(step, tuple) and len(step) == 2:
             action, observation = step
-            if isinstance(action, dict) and "tool" in action and "tool_input" in action and "log" in action:
+            if isinstance(action, dict):
                 st.markdown(f"# Action")
-                st.markdown(f"**Tool:** {action['tool']}")
-                st.markdown(f"**Tool Input** {action['tool_input']}")
-                st.markdown(f"**Log:** {action['log']}")
-                st.markdown(f"**Action:** {action['Action']}")
-                st.markdown(
-                    f"**Action Input:** ```json\n{action['tool_input']}\n```")
+                st.markdown(f"**Tool:** {action.get('tool', '')}")
+                st.markdown(f"**Tool Input:** {action.get('tool_input', '')}")
+                st.markdown(f"**Log:** {action.get('log', '')}")
+                st.markdown(f"**Action:** {action.get('action', '')}")
             elif isinstance(action, str):
                 st.markdown(f"**Action:** {action}")
-            else:
-                st.markdown(f"**Action:** {str(action)}")
 
-            st.markdown(f"**Observation**")
-            if isinstance(observation, str):
-                observation_lines = observation.split('\n')
-                for line in observation_lines:
-                    if line.startswith('Title: '):
-                        st.markdown(f"**Title:** {line[7:]}")
-                    elif line.startswith('Link: '):
-                        st.markdown(f"**Link:** {line[6:]}")
-                    elif line.startswith('Snippet: '):
-                        st.markdown(f"**Snippet:** {line[9:]}")
-                    elif line.startswith('-'):
-                        st.markdown(line)
-                    else:
-                        st.markdown(line)
-            else:
-                st.markdown(str(observation))
-        else:
-            st.markdown(step)
+            st.markdown(f"**Observation:** {str(observation)}")
 
-class LegalAgents():
+class LegalAgents:
 
     def legal_researcher(self):
         return Agent(
-            role='Senior Researcher Indian Lawyer',
-            goal='Search for a legal cases and its judgments from the Supreme Court of India that are similar type of provided case and write detailed discription',
-            backstory="""You work at a leading Indian Law Firm.
-             Your expertise lies in searching same legal cases that are similar to provided case.
-             You have a knack for dissecting complex data and presenting actionable insights.""",
-            tools=[
-                search_tool
-            ],
-            llm = llm,
+            role='Senior Research Lawyer',
+            goal='Conduct comprehensive legal research on cases and judgments from the Supreme Court of India similar to a provided legal case.',
+            backstory="""You are an experienced senior research lawyer with deep expertise in Indian law. 
+             Your proficiency lies in identifying cases similar to a provided case and presenting detailed analyses of judgments and legal precedents.""",
+            tools=[search_tool],
+            llm=llm,
             verbose=True,
             step_callback=streamlit_callback,
         )
@@ -68,27 +39,23 @@ class LegalAgents():
     def legal_analyst(self):
         return Agent(
             role='Legal Case Analyst',
-            goal='Analyse the provided legal case and check this case comes under in which Indian laws article/articles',
-            backstory="""You are a renowned legal case analyst, known for your insightful and engaging analysis.
-             You can analyse very complicated legal cases also.""",
-            tools=[
-                search_tool
-            ],
-            llm = llm,
+            goal='Analyze a provided legal case to determine which Indian laws and articles apply.',
+            backstory="""As a skilled legal case analyst, you excel in examining complex legal cases and identifying relevant Indian laws and articles. 
+             Your insightful analysis helps provide clarity on the legal implications of a case.""",
+            tools=[search_tool],
+            llm=llm,
             verbose=True,
             step_callback=streamlit_callback,
         )
 
-    def legal_strategiest(self):
+    def legal_strategist(self):
         return Agent(
-            role='Legal Case Strategiest',
-            goal="""Analyse Provided Case and Using the insights provided, develop a strategy to win this case in Indian Supreme Court or High Court or District Court""",
-            backstory="""You are a renowned legal case strategiest, known for your insightful and engaging strategies.
-             You can analyse very complicated legal cases and make winning strategies.""",
-            tools=[
-              search_tool
-            ],
-            llm = llm,
+            role='Legal Case Strategist',
+            goal='Develop a winning strategy for a provided case in the Indian Supreme Court, High Court, or district court using given insights and research.',
+            backstory="""You are a distinguished legal case strategist known for your ability to create winning strategies for complex legal cases.
+             Your approach combines insights from research, legal precedents, and the applicable laws to craft compelling arguments and strategies.""",
+            tools=[search_tool],
+            llm=llm,
             verbose=True,
             step_callback=streamlit_callback,
         )
