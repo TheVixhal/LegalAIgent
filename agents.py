@@ -85,9 +85,7 @@ class LegalAgents():
             goal="""Analyse Provided Case and Using the insight provided, develop a strategy to win this case in Indian Supreme Court""",
             backstory="""You are a renowned legal case strategiest, known for your insightful and engaging strategies.
              You can analyse very complicated legal cases and make winning strategies.""",
-            tools=[
-                search_tool
-            ],
+            tools=[],
             llm = llm,
             verbose=True,
             step_callback=streamlit_callback,
