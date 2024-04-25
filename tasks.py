@@ -18,6 +18,6 @@ class LegalTasks():
     def task3(self, agent):
         return Task(description=dedent(f"""Analyse Provided Case and Using given Detailed discription and given detailed Insights of provided case, develop a strategy to win this case in Indian Supreme Court/high court/district court.
           """),
-            expected_output="Write best detailed winning strategy with referencing indian laws, articles and old judgements of indian supreme courtand High court.",
+            expected_output="Write best detailed winning strategy with referencing indian laws, articles and old judgements of indian supreme court and High court.",
             agent=agent)
 
