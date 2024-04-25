@@ -82,10 +82,12 @@ class LegalAgents():
     def legal_strategiest(self):
         return Agent(
             role='Legal Case Strategiest',
-            goal="""Analyse Provided Case and Using the insight provided, develop a strategy to win this case in Indian Supreme Court""",
+            goal="""Analyse Provided Case and Using the insights provided, develop a strategy to win this case in Indian Supreme Court or High Court or District Court""",
             backstory="""You are a renowned legal case strategiest, known for your insightful and engaging strategies.
              You can analyse very complicated legal cases and make winning strategies.""",
-            
+            tools=[
+              search_tool
+            ],
             llm = llm,
             verbose=True,
             step_callback=streamlit_callback,
