@@ -8,5 +8,4 @@ langchain
 unstructured
 pyowm
 datetime
-sqlite3 == 3.45.3
 pysqlite3
