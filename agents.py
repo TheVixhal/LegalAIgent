@@ -4,7 +4,7 @@ from langchain.tools import DuckDuckGoSearchRun
 import streamlit as st
 
 search_tool = DuckDuckGoSearchRun()
-llm = ChatGroq(model="mixtral-8x7b-32768", verbose=True, temperature=0.6, groq_api_key="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")
+llm = ChatGroq(model="mixtral-8x7b-32768", verbose=True, temperature=0.6, groq_api_key="paste your groq api key")
 
 def streamlit_callback(step_output):
     st.markdown("---")
